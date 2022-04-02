@@ -18,6 +18,11 @@ export const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
 
+  p {
+    color: white;
+    font-weight: 700;
+  }
+
   button {
     margin-top: 60px;
     background: #2132a3;

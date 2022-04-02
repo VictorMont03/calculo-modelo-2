@@ -26,6 +26,8 @@ export default function Contato() {
       "Diagrama do Esforço Cortante",
     ],
   ]);
+  const [reacao_a, setReacaoA] = useState();
+  const [reacao_b, setReacaoB] = useState();
 
   const formik = useFormik({
     initialValues: {
@@ -66,6 +68,9 @@ export default function Contato() {
         By = (p1 * pos1 + p2 * pos2) / L;
         Ay = p1 + p2 - By;
 
+        setReacaoA("By = (p1 * pos1 + p2 * pos2) / L" + " = " + By);
+        setReacaoB("Ay = p1 + p2 - By" + " = " + Ay);
+
         //esforco cortante
         //∑Fy+V(x)=0
 
@@ -84,18 +89,21 @@ export default function Contato() {
 
         for (let i = 0; i <= pos1; i++) {
           m1[i] = Ay * i;
+          m1[i] = m1[i] * -1;
         }
 
         //m2 = -p1*(x-pos1)+ Ay*(x);
 
         for (let i = parseInt(pos1); i <= parseInt(pos2); i++) {
           m2[i] = Ay * (i + pos1) - p1 * i;
+          m2[i] = m2[i] * -1;
         }
 
         //m3 = -p1*(x-pos1) -p2*(x-pos2)+ Ay*(x);
 
         for (let i = parseInt(pos2); i <= L; i++) {
           m3[i] = -p1 * (i - pos1) - p2 * (i - pos2) + Ay * i;
+          m3[i] = m3[i] * -1;
         }
 
         console.log(m1);
@@ -156,7 +164,7 @@ export default function Contato() {
     <Grafico>
       <Container showGrafico={showGrafico}>
         <form onSubmit={formik.handleSubmit}>
-          <p>Calculo do Momento Fletor</p>
+          <p>Calculo do Momento Fletor e Esforço cortante - Modelo 2</p>
           <div>
             <input
               type="text"
@@ -209,6 +217,9 @@ export default function Contato() {
           data={data}
           options={options}
         />
+        <p>{reacao_a}</p>
+
+        <p>{reacao_b}</p>
         <button onClick={(e) => handleChangeGrafico()}>
           REALIZAR NOVO CÁLCULO
         </button>
